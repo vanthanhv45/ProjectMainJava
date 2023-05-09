@@ -4,6 +4,18 @@
  */
 package GUI;
 
+import BUS.DanhMucBUS;
+import DTO.DanhMucDTO;
+import java.util.ArrayList;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author ACER
@@ -13,8 +25,10 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
     /**
      * Creates new form DanhMucSanPhamGUI
      */
-    public DanhMucSanPhamGUI() {
+    public DanhMucSanPhamGUI() throws Exception {
         initComponents();
+        LayDanhMucSanPham();
+
     }
 
     /**
@@ -29,20 +43,21 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        MaDanhMuc = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        TenDanhMuc = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        ThemSP = new javax.swing.JButton();
+        SuaDanhMuc = new javax.swing.JButton();
+        XoaDanhMuc = new javax.swing.JButton();
+        ReSetDanhMuc = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        jTextField3 = new javax.swing.JTextField();
-        jButton5 = new javax.swing.JButton();
+        noidungtimkiem = new javax.swing.JTextField();
+        TimKiemFilter = new javax.swing.JComboBox<>();
+        timkiem = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        DanhMucTable = new javax.swing.JTable();
 
         setPreferredSize(new java.awt.Dimension(972, 653));
 
@@ -54,9 +69,9 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
 
         jLabel3.setText("Tên Danh Mục");
 
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        TenDanhMuc.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                TenDanhMucActionPerformed(evt);
             }
         });
 
@@ -68,11 +83,11 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
                 .addGap(57, 57, 57)
                 .addComponent(jLabel2)
                 .addGap(32, 32, 32)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(MaDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, 261, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TenDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -81,23 +96,43 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
                 .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MaDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(TenDanhMuc, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (1).png"))); // NOI18N
-        jButton1.setText("Thêm");
+        ThemSP.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/add (1).png"))); // NOI18N
+        ThemSP.setText("Thêm");
+        ThemSP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ThemSPMouseClicked(evt);
+            }
+        });
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edit (1).png"))); // NOI18N
-        jButton2.setText("Sửa");
+        SuaDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/edit (1).png"))); // NOI18N
+        SuaDanhMuc.setText("Sửa");
+        SuaDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                SuaDanhMucMouseClicked(evt);
+            }
+        });
 
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/delete (1).png"))); // NOI18N
-        jButton3.setText("Xóa");
+        XoaDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/delete (1).png"))); // NOI18N
+        XoaDanhMuc.setText("Xóa");
+        XoaDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                XoaDanhMucMouseClicked(evt);
+            }
+        });
 
-        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/reset (1).png"))); // NOI18N
-        jButton4.setText("Reset");
+        ReSetDanhMuc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/reset (1).png"))); // NOI18N
+        ReSetDanhMuc.setText("Reset");
+        ReSetDanhMuc.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                ReSetDanhMucMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -105,13 +140,13 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(99, 99, 99)
-                .addComponent(jButton1)
+                .addComponent(ThemSP)
                 .addGap(136, 136, 136)
-                .addComponent(jButton2)
+                .addComponent(SuaDanhMuc)
                 .addGap(135, 135, 135)
-                .addComponent(jButton3)
+                .addComponent(XoaDanhMuc)
                 .addGap(102, 102, 102)
-                .addComponent(jButton4)
+                .addComponent(ReSetDanhMuc)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -119,14 +154,21 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(ThemSP)
+                    .addComponent(SuaDanhMuc)
+                    .addComponent(XoaDanhMuc)
+                    .addComponent(ReSetDanhMuc))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
 
-        jButton5.setText("Tìm Kiếm");
+        TimKiemFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo mã", "Tìm theo tên", " " }));
+
+        timkiem.setText("Tìm Kiếm");
+        timkiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiemMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -134,9 +176,11 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(213, 213, 213)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(29, 29, 29)
-                .addComponent(jButton5, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(noidungtimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(TimKiemFilter, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(timkiem)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -144,23 +188,29 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(37, 37, 37)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField3)
-                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE))
+                    .addComponent(noidungtimkiem, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
+                    .addComponent(TimKiemFilter)
+                    .addComponent(timkiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        DanhMucTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        DanhMucTable.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                DanhMucTableMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(DanhMucTable);
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -212,18 +262,210 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
                 .addContainerGap(25, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+   // hiển thị filter tìm kiếm
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+
+
+    public void LayDanhMucSanPham() throws Exception {
+//        DanhMucTable = new JTable();
+
+        ArrayList<DanhMucDTO> DsDanhMuc = new ArrayList<>();
+        DsDanhMuc = DanhMucBUS.LayDsDanhMuc();
+        DefaultTableModel model = (DefaultTableModel) DanhMucTable.getModel();
+        // xóa dữ liệu đang có trong table
+        model.setRowCount(0);
+        Vector<Object> header = new Vector<>();
+        header.add("Stt");
+        header.add("Mã Danh Mục");
+        header.add("Tên Danh Muc");
+        if (model.getRowCount() == 0) {
+            model = new DefaultTableModel(header, 0);
+        }
+        int i = 0;
+        for (DanhMucDTO danhmuc : DsDanhMuc) {
+            Vector<Object> obj = new Vector<>();
+            obj.add(i);
+            obj.add(danhmuc.getMaDanhMuc());
+            obj.add(danhmuc.getTenDanhMuc());
+            i++;
+            model.addRow(obj);
+        }
+        DanhMucTable.setModel(model);
+    }
+    private void TenDanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TenDanhMucActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_TenDanhMucActionPerformed
+
+    private void ThemSPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ThemSPMouseClicked
+        String TenDanhMuc = this.TenDanhMuc.getText();
+        String mdanhmuc = this.MaDanhMuc.getText();
+        if (TenDanhMuc.equals("") || MaDanhMuc.equals("")) {
+            JOptionPane.showMessageDialog(null, "Nhập đầy đủ thông tin");
+        } else {
+            int MaDanhMuc = Integer.parseInt(mdanhmuc);
+            try {
+                if (DanhMucBUS.kiemtraDM(MaDanhMuc, TenDanhMuc) == false) {
+                    JOptionPane.showMessageDialog(null, "Tên danh mục hoặc Mã danh mục đã tồn tại");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            DanhMucDTO danhmuc = new DanhMucDTO(MaDanhMuc, TenDanhMuc);
+            try {
+                DanhMucBUS.ThemDanhMuc(danhmuc);
+                JOptionPane.showMessageDialog(null, "Đã thêm danh mục thành công");
+                this.TenDanhMuc.setText("");
+                this.MaDanhMuc.setText("");
+                LayDanhMucSanPham();
+
+            } catch (Exception ex) {
+                Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_ThemSPMouseClicked
+
+    private void DanhMucTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DanhMucTableMouseClicked
+        // TODO add your handling code here:
+        JTable target = (JTable) evt.getSource();
+        int row = target.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) target.getModel();
+        // lấy dữ liệu từ hàng dc chọn
+        String MaDanhMuc = model.getValueAt(row, 1).toString();
+        String TenDanhMuc = model.getValueAt(row, 2).toString();
+        this.TenDanhMuc.setText(TenDanhMuc);
+        this.MaDanhMuc.setText(MaDanhMuc);
+        this.MaDanhMuc.setEditable(false);
+
+    }//GEN-LAST:event_DanhMucTableMouseClicked
+
+    private void SuaDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SuaDanhMucMouseClicked
+        // TODO add your handling code here:
+        String TenDanhMuc = this.TenDanhMuc.getText();
+        int MaDanhMuc = Integer.parseInt(this.MaDanhMuc.getText());
+        try {
+            if (DanhMucBUS.KiemTraMaDanhMuc(MaDanhMuc) == false) {
+                JOptionPane.showMessageDialog(null, "Mã danh mục không chính xác");
+            } else {
+                if (DanhMucBUS.KiemTraTenDanhMuc(TenDanhMuc, MaDanhMuc) == false) {
+                    JOptionPane.showMessageDialog(null, "Tên Danh Mục Đã Tồn Tại");
+                } else {
+                    DanhMucBUS.CapNhatDanhMuc(TenDanhMuc, MaDanhMuc);
+                    JOptionPane.showMessageDialog(null, "Đã cập nhật thành công");
+                    LayDanhMucSanPham();
+                }
+            }
+
+        } catch (Exception ex) {
+            Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_SuaDanhMucMouseClicked
+
+    private void ReSetDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ReSetDanhMucMouseClicked
+        // TODO add your handling code here:
+        MaDanhMuc.setText("");
+        MaDanhMuc.setEditable(true);
+        TenDanhMuc.setText("");
+    }//GEN-LAST:event_ReSetDanhMucMouseClicked
+
+    private void XoaDanhMucMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_XoaDanhMucMouseClicked
+        String Tendanhmuc = TenDanhMuc.getText();
+        int Madanhmuc = Integer.parseInt(MaDanhMuc.getText());
+        try {
+            if (DanhMucBUS.KiemTraMaDanhMuc(Madanhmuc) == false) {
+                JOptionPane.showMessageDialog(null, "Mã Danh Mục Không Chính Xác");
+            } else {
+                DanhMucBUS.XoaDanhMuc(Madanhmuc);
+                JOptionPane.showMessageDialog(null, "Đã Xóa Thành Công");
+                LayDanhMucSanPham();
+                this.TenDanhMuc.setText("");
+                this.MaDanhMuc.setText("");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_XoaDanhMucMouseClicked
+
+    private void timkiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiemMouseClicked
+        // TODO add your handling code here:
+        String noidungtimkiem = this.noidungtimkiem.getText();
+        String filter = (String) TimKiemFilter.getSelectedItem();
+        ArrayList<DanhMucDTO> dsdanhmuc = new ArrayList<>();
+        switch (filter) {
+            case "Tìm theo tên": {
+                try {
+                    dsdanhmuc = DanhMucBUS.TimKiemDanhMucTheoTen(noidungtimkiem);
+                    DefaultTableModel model = (DefaultTableModel) DanhMucTable.getModel();
+                    // xoá dữ liệu bảng
+                    model.setRowCount(0);
+                    Vector<Object> header = new Vector<>();
+                    header.add("Stt");
+                    header.add("Mã danh mục");
+                    header.add("Tên danh mục");
+                    if (model.getRowCount() == 0) {
+                        model = new DefaultTableModel(header, 0);
+                    }
+                    int i = 0;
+                    for (DanhMucDTO danhmuc : dsdanhmuc) {
+                        Vector<Object> dm = new Vector<>();
+                        dm.add(i);
+                        dm.add(danhmuc.getMaDanhMuc());
+                        dm.add(danhmuc.getTenDanhMuc());
+                        model.addRow(dm);
+                        i++;
+                    }
+
+                    DanhMucTable.setModel(model);
+                } catch (Exception ex) {
+                    Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+
+            case "Tìm theo mã":
+                DefaultTableModel model = (DefaultTableModel) DanhMucTable.getModel();
+                model.setRowCount(0);
+                 {
+                    try {
+                        dsdanhmuc = DanhMucBUS.TimKiemDanhMucTheoMa(noidungtimkiem);
+                        Vector<Object> header = new Vector<>();
+                        header.add("Stt");
+                        header.add("Mã danh mục");
+                        header.add("Tên danh mục");
+                        if (model.getRowCount() == 0) {
+                            model = new DefaultTableModel(header, 0);
+                        }
+                        int i = 0;
+                        for (DanhMucDTO dm:dsdanhmuc ){
+                            Vector<Object> danhmuc = new Vector<>();
+                            danhmuc.add(i);
+                            danhmuc.add(dm.getMaDanhMuc());
+                            danhmuc.add(dm.getTenDanhMuc());
+                            model.addRow(danhmuc);
+                            i++;
+                        }
+                        DanhMucTable.setModel(model);
+                    } catch (Exception ex) {
+                        Logger.getLogger(DanhMucSanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+
+                break;
+
+        }
+
+    }//GEN-LAST:event_timkiemMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
+    private javax.swing.JTable DanhMucTable;
+    private javax.swing.JTextField MaDanhMuc;
+    private javax.swing.JButton ReSetDanhMuc;
+    private javax.swing.JButton SuaDanhMuc;
+    private javax.swing.JTextField TenDanhMuc;
+    private javax.swing.JButton ThemSP;
+    private javax.swing.JComboBox<String> TimKiemFilter;
+    private javax.swing.JButton XoaDanhMuc;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -232,9 +474,7 @@ public class DanhMucSanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField noidungtimkiem;
+    private javax.swing.JButton timkiem;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,14 +18,39 @@ public class NhanVienDTO {
     private String DiaChi;
     private String SoDienThoai;
     private String Email;
+    private String matkhau;
+    private String tendangnhap;
 
-    public NhanVienDTO(int MaNV, String HoTen, Date NgaySinh, String DiaChi, String SoDienThoai, String Email) {
+    public NhanVienDTO(int MaNV, String HoTen, Date NgaySinh, String DiaChi, String SoDienThoai, String Email, String matkhau, String tendangnhap) {
         this.MaNV = MaNV;
         this.HoTen = HoTen;
         this.NgaySinh = NgaySinh;
         this.DiaChi = DiaChi;
         this.SoDienThoai = SoDienThoai;
         this.Email = Email;
+        this.matkhau = matkhau;
+        this.tendangnhap = tendangnhap;
+    }
+
+    public NhanVienDTO(String matkhau, String tendangnhap) {
+        this.matkhau = matkhau;
+        this.tendangnhap = tendangnhap;
+    }
+
+    public String getTendangnhap() {
+        return tendangnhap;
+    }
+
+    public void setTendangnhap(String tendangnhap) {
+        this.tendangnhap = tendangnhap;
+    }
+
+    public String getMatkhau() {
+        return matkhau;
+    }
+
+    public void setMatkhau(String matkhauString) {
+        this.matkhau = matkhauString;
     }
 
     public int getMaNV() {
@@ -76,7 +101,4 @@ public class NhanVienDTO {
         this.Email = Email;
     }
 
- 
-    
-    
 }

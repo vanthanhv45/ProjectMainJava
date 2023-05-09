@@ -67,15 +67,10 @@ public class HoaDonGUI extends javax.swing.JPanel {
 
         jLabel4.setText("Ngày Lập");
 
-        jTextField1.setText("jTextField1");
-
         jLabel5.setText("Mã Nhân Viên");
 
         jLabel6.setText("Mã Khách Hàng");
 
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);

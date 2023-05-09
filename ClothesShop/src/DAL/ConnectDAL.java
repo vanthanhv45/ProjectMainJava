@@ -16,7 +16,7 @@ public class ConnectDAL {
     String Host = "localhost";
     String UserName = "root";
     String Password = "";
-    String DataBase = "javaClothes";
+    String DataBase = "clotheshop";
 
     Connection connect = null;
 //    Statement statement = null;
@@ -25,7 +25,10 @@ public class ConnectDAL {
     public ConnectDAL() {
 
     }
-
+//    public static void main(String[] args) throws Exception {
+//        ConnectDAL c = new ConnectDAL();
+//        c.getConnect();
+//    }
 //    public ConnectDAL(String host, String username, String password, String database) {
 //        this.Host = host;
 //        this.UserName = username;

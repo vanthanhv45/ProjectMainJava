@@ -16,12 +16,18 @@ public class PhieuNhapDTO {
     private Date NgayNhap;
     private int MaNV;
 
+    
     public PhieuNhapDTO(int MaPN, Date NgayNhap, int MaNV) {
         this.MaPN = MaPN;
         this.NgayNhap = NgayNhap;
         this.MaNV = MaNV;
     }
 
+    public PhieuNhapDTO(int MaPN, int MaNV) {
+        this.MaPN = MaPN;
+        this.MaNV = MaNV;
+    }
+   
     public int getMaPN() {
         return MaPN;
     }

@@ -12,12 +12,13 @@ public class SanPhamDTO {
 
     private int MaSP;
     private String TenSP;
-    private Float DonGia;
+    private int DonGia;
     private int SLTonKho;
     private int DanhMucSP;
     private String MoTaSP;
 
-    public SanPhamDTO(int MaSP, String TenSP, Float DonGia, int SLTonKho, int DanhMucSP, String MoTaSP) {
+
+    public SanPhamDTO(int MaSP, String TenSP, int DonGia, int SLTonKho, int DanhMucSP, String MoTaSP) {
         this.MaSP = MaSP;
         this.TenSP = TenSP;
         this.DonGia = DonGia;
@@ -42,11 +43,11 @@ public class SanPhamDTO {
         this.TenSP = TenSP;
     }
 
-    public Float getDonGia() {
+    public int getDonGia() {
         return DonGia;
     }
 
-    public void setDonGia(Float DonGia) {
+    public void setDonGia(int DonGia) {
         this.DonGia = DonGia;
     }
 
@@ -72,6 +73,11 @@ public class SanPhamDTO {
 
     public void setMoTaSP(String MoTaSP) {
         this.MoTaSP = MoTaSP;
+    }
+
+    @Override
+    public String toString() {
+        return TenSP ;
     }
     
 }

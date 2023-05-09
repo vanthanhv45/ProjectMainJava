@@ -34,4 +34,9 @@ public class DanhMucDTO {
         this.TenDanhMuc = TenDanhMuc;
     }
 
+    @Override
+    public String toString() {
+        return TenDanhMuc;
+    }
+    
 }

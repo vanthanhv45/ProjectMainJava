@@ -13,9 +13,9 @@ public class ChiTietPhieuNhapDTO {
     private int MaPN;
     private int MaSp;
     private int SoLuong;
-    private float DonGia;
+    private int DonGia;
 
-    public ChiTietPhieuNhapDTO(int MaPN, int MaSp, int SoLuong, float DonGia) {
+    public ChiTietPhieuNhapDTO(int MaPN, int MaSp, int SoLuong, int DonGia) {
         this.MaPN = MaPN;
         this.MaSp = MaSp;
         this.SoLuong = SoLuong;
@@ -46,11 +46,11 @@ public class ChiTietPhieuNhapDTO {
         this.SoLuong = SoLuong;
     }
 
-    public float getDonGia() {
+    public int getDonGia() {
         return DonGia;
     }
 
-    public void setDonGia(float DonGia) {
+    public void setDonGia(int DonGia) {
         this.DonGia = DonGia;
     }
 

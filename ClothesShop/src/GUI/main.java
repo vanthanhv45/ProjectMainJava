@@ -4,6 +4,8 @@
  */
 package GUI;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 /**
@@ -12,17 +14,40 @@ import javax.swing.JPanel;
  */
 public class main extends javax.swing.JFrame {
 
+    
     /**
      * Creates new form main
      */
     private JPanel chilPanel;
-    
-    public main() {
-        initComponents();
+    private String tendangnhap;
+    private String matkhau;
+
+    public String getTendangnhap() {
+        return tendangnhap;
+    }
+
+    public void setTendangnhap(String tendangnhap) {
+        this.tendangnhap = tendangnhap;
+    }
+
+    public String getMatkhau() {
+        return matkhau;
+    }
+
+    public void setMatkhau(String matkhau) {
+        this.matkhau = matkhau;
     }
     
+
+    public main(String tendangnhap, String matkhau) {
+        this.tendangnhap = tendangnhap;
+        this.matkhau = matkhau;
+        initComponents();
+        changePanel(new BanHangGUI());
+
+    }
+
     private void changePanel(JPanel panel) {
-        
         chilPanel = panel;
         pnMain.removeAll();
         pnMain.add(chilPanel);
@@ -38,7 +63,7 @@ public class main extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        leftpanel = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         SanPham = new javax.swing.JButton();
         DanhMuc = new javax.swing.JButton();
@@ -51,9 +76,10 @@ public class main extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(153, 255, 255));
+        setLocation(new java.awt.Point(200, 30));
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        jPanel1.setForeground(new java.awt.Color(255, 51, 51));
+        leftpanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        leftpanel.setForeground(new java.awt.Color(255, 51, 51));
 
         jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel7.setIcon(new javax.swing.ImageIcon(getClass().getResource("/image/tao-logo-shop-quan-ao-ny.jpg"))); // NOI18N
@@ -112,13 +138,13 @@ public class main extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout leftpanelLayout = new javax.swing.GroupLayout(leftpanel);
+        leftpanel.setLayout(leftpanelLayout);
+        leftpanelLayout.setHorizontalGroup(
+            leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftpanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(HoaDon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, 169, Short.MAX_VALUE)
                     .addComponent(SanPham, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -129,9 +155,9 @@ public class main extends javax.swing.JFrame {
                     .addComponent(PhieuNhap, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        leftpanelLayout.setVerticalGroup(
+            leftpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(leftpanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -160,7 +186,7 @@ public class main extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(leftpanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, 1001, Short.MAX_VALUE)
                 .addContainerGap())
@@ -170,7 +196,7 @@ public class main extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(leftpanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnMain, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -179,7 +205,11 @@ public class main extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SanPhamActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SanPhamActionPerformed
-        changePanel(new SanPhamGUI());
+        try {
+            changePanel(new SanPhamGUI());
+        } catch (Exception ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_SanPhamActionPerformed
 
     private void SanPhamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SanPhamMouseClicked
@@ -187,7 +217,11 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_SanPhamMouseClicked
 
     private void DanhMucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DanhMucActionPerformed
-        changePanel(new DanhMucSanPhamGUI());
+        try {
+            changePanel(new DanhMucSanPhamGUI());
+        } catch (Exception ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_DanhMucActionPerformed
 
     private void BanHangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BanHangActionPerformed
@@ -199,7 +233,7 @@ public class main extends javax.swing.JFrame {
     private void HoaDonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HoaDonActionPerformed
         // TODO add your handling code here:
         changePanel(new HoaDonGUI());
-        
+
 
     }//GEN-LAST:event_HoaDonActionPerformed
 
@@ -215,44 +249,48 @@ public class main extends javax.swing.JFrame {
     }//GEN-LAST:event_KhachHangActionPerformed
 
     private void PhieuNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhieuNhapActionPerformed
-        // TODO add your handling code here:
-        changePanel(new PhieuNhapGUI());
+        try {
+            // TODO add your handling code here:
+            changePanel(new PhieuNhapGUI(this.tendangnhap,this.matkhau));
+        } catch (Exception ex) {
+            Logger.getLogger(main.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_PhieuNhapActionPerformed
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new main().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String args[]) {
+//        /* Set the Nimbus look and feel */
+//        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+//        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+//         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+//         */
+//        try {
+//            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+//                if ("Nimbus".equals(info.getName())) {
+//                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+//                    break;
+//                }
+//            }
+//        } catch (ClassNotFoundException ex) {
+//            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (InstantiationException ex) {
+//            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (IllegalAccessException ex) {
+//            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+//            java.util.logging.Logger.getLogger(main.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+//        }
+//        //</editor-fold>
+//
+//        /* Create and display the form */
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new main().setVisible(true);
+//            }
+//        });
+//    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton BanHang;
@@ -263,7 +301,7 @@ public class main extends javax.swing.JFrame {
     private javax.swing.JButton PhieuNhap;
     private javax.swing.JButton SanPham;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel leftpanel;
     private javax.swing.JPanel pnMain;
     // End of variables declaration//GEN-END:variables
 }

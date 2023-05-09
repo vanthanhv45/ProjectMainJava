@@ -4,11 +4,22 @@
  */
 package GUI;
 
+import BUS.DanhMucBUS;
 import BUS.SanPhamBUS;
+import static DAL.SanPhamDAL.LayDanhSachSanPham;
+import DTO.DanhMucDTO;
 import DTO.SanPhamDTO;
 import java.util.ArrayList;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
+import javax.swing.JSpinner;
+import javax.swing.JTable;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -19,8 +30,54 @@ public class SanPhamGUI extends javax.swing.JPanel {
     /**
      * Creates new form SanPhamGUI
      */
-    public SanPhamGUI() {
+    public SanPhamGUI() throws Exception {
         initComponents();
+        LayDanhMucSanPham();
+        LayDanhSachSanPham();
+    }
+
+    public void LayDanhMucSanPham() throws Exception {
+        giasanpham.setEditable(false);
+        soluongsanpham.setEnabled(false);
+        ArrayList<DanhMucDTO> DsDanhMuc = new ArrayList<>();
+        DsDanhMuc = SanPhamBUS.LayDanhSachDanhMuc();
+        DefaultComboBoxModel model = (DefaultComboBoxModel) danhmucsanpham.getModel();
+        for (DanhMucDTO danhMuc : DsDanhMuc) {
+            model.addElement(danhMuc);
+        }
+        danhmucsanpham.setModel(model);
+    }
+
+    public void LayDanhSachSanPham() throws Exception {
+        ArrayList<SanPhamDTO> DsSanPham = new ArrayList<>();
+        DsSanPham = SanPhamBUS.LayDanhSachSanPham();
+        DefaultTableModel model = (DefaultTableModel) danhsachsanpham.getModel();
+        model.setRowCount(0);
+        Vector<Object> header = new Vector<>();
+        header.add("Stt");
+        header.add("Mã sản phẩm");
+        header.add("Tên sản phẩm");
+        header.add("Số lượng");
+        header.add("Đơn Gía");
+        header.add("Danh mục");
+        header.add("Mô tả");
+        if (model.getRowCount() == 0) {
+            model = new DefaultTableModel(header, 0);
+        }
+        int i = 0;
+        for (SanPhamDTO sanpham : DsSanPham) {
+            Vector<Object> sp = new Vector<>();
+            sp.add(i);
+            sp.add(sanpham.getMaSP());
+            sp.add(sanpham.getTenSP());
+            sp.add(sanpham.getSLTonKho());
+            sp.add(sanpham.getDonGia());
+            sp.add(DanhMucBUS.LayTenDanhMucTheoMa(sanpham.getDanhMucSP()));
+            sp.add(sanpham.getMoTaSP());
+            model.addRow(sp);
+            i++;
+        }
+        danhsachsanpham.setModel(model);
     }
 
     /**
@@ -39,27 +96,28 @@ public class SanPhamGUI extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
+        masanpham = new javax.swing.JTextField();
+        tensanpham = new javax.swing.JTextField();
+        giasanpham = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        motasanpham = new javax.swing.JTextArea();
         jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jSpinner1 = new javax.swing.JSpinner();
+        danhmucsanpham = new javax.swing.JComboBox<>();
+        soluongsanpham = new javax.swing.JSpinner();
         jPanel2 = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jTextField5 = new javax.swing.JTextField();
+        themsanpham = new javax.swing.JButton();
+        suasanpham = new javax.swing.JButton();
+        xoasanpham = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
+        timkiemsanpham = new javax.swing.JButton();
+        giatritimkiem = new javax.swing.JTextField();
+        phuongthuctimkiem = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jLabel11 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        danhsachsanpham = new javax.swing.JTable();
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel1.setText("QUẢN LÝ SẢN PHẨM");
@@ -78,13 +136,11 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
         jLabel8.setText("Mô tả");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        motasanpham.setColumns(20);
+        motasanpham.setRows(5);
+        jScrollPane1.setViewportView(motasanpham);
 
         jLabel9.setText("Danh mục ");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -99,10 +155,10 @@ public class SanPhamGUI extends javax.swing.JPanel {
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
-                    .addComponent(jSpinner1))
+                    .addComponent(tensanpham, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(masanpham, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(giasanpham, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE)
+                    .addComponent(soluongsanpham))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel9)
@@ -110,7 +166,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(danhmucsanpham, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(82, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
@@ -127,23 +183,23 @@ public class SanPhamGUI extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(masanpham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel5)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(tensanpham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(giasanpham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(danhmucsanpham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(soluongsanpham, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
 
@@ -151,20 +207,42 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
         jLabel10.setText("Thao tác");
 
-        jButton1.setText("Thêm");
-
-        jButton2.setText("Sửa");
-
-        jButton3.setText("Xóa");
-
-        jButton4.setText("Reset");
-
-        jButton5.setText("Tìm kiếm");
-        jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+        themsanpham.setText("Thêm");
+        themsanpham.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButton5MouseClicked(evt);
+                themsanphamMouseClicked(evt);
             }
         });
+
+        suasanpham.setText("Sửa");
+        suasanpham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                suasanphamMouseClicked(evt);
+            }
+        });
+
+        xoasanpham.setText("Xóa");
+        xoasanpham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                xoasanphamMouseClicked(evt);
+            }
+        });
+
+        reset.setText("Reset");
+        reset.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                resetMouseClicked(evt);
+            }
+        });
+
+        timkiemsanpham.setText("Tìm kiếm");
+        timkiemsanpham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                timkiemsanphamMouseClicked(evt);
+            }
+        });
+
+        phuongthuctimkiem.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tìm theo tên", "Tìm theo mã", " " }));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -177,20 +255,21 @@ public class SanPhamGUI extends javax.swing.JPanel {
                         .addComponent(jLabel10))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(210, 210, 210)
-                        .addComponent(jButton1)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton2)
-                        .addGap(44, 44, 44)
-                        .addComponent(jButton3)
-                        .addGap(64, 64, 64)
-                        .addComponent(jButton4)))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(themsanpham)
+                                .addGap(64, 64, 64)
+                                .addComponent(suasanpham))
+                            .addComponent(giatritimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(33, 33, 33)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(phuongthuctimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(xoasanpham))
+                        .addGap(57, 57, 57)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(reset, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(timkiemsanpham))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton5)
-                .addGap(290, 290, 290))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -199,14 +278,15 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton2)
-                        .addComponent(jButton3)
-                        .addComponent(jButton4))
-                    .addComponent(jButton1))
+                        .addComponent(suasanpham)
+                        .addComponent(xoasanpham)
+                        .addComponent(reset))
+                    .addComponent(themsanpham))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(timkiemsanpham)
+                    .addComponent(giatritimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(phuongthuctimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(22, Short.MAX_VALUE))
         );
 
@@ -214,7 +294,7 @@ public class SanPhamGUI extends javax.swing.JPanel {
 
         jLabel11.setText("Danh sách sản phẩm");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        danhsachsanpham.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -225,7 +305,12 @@ public class SanPhamGUI extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable1);
+        danhsachsanpham.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                danhsachsanphamMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(danhsachsanpham);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -279,18 +364,209 @@ public class SanPhamGUI extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+    private void timkiemsanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_timkiemsanphamMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton5MouseClicked
+        String filter = (String) phuongthuctimkiem.getSelectedItem();
+        String noidungtimkiem = giatritimkiem.getText();
+        ArrayList<SanPhamDTO> DsSanPham = new ArrayList<>();
+        switch (filter) {
+            case "Tìm theo tên": {
+                try {
+                    DsSanPham = SanPhamBUS.TimKiemTheoTen(noidungtimkiem);
+                    DefaultTableModel model = (DefaultTableModel) danhsachsanpham.getModel();
+                    model.setRowCount(0);
+                    Vector<Object> header = new Vector<>();
+                    header.add("Stt");
+                    header.add("Mã sản phẩm");
+                    header.add("Tên sản phẩm");
+                    header.add("Gía ");
+                    header.add("Số lượng");
+                    header.add("Danh Mục");
+                    header.add("Mô tả");
+                    if(model.getRowCount()==0){
+                        model=new DefaultTableModel(header,0);
+                    }
+                    int i =0;
+                    for (SanPhamDTO sanpham : DsSanPham) {
+                      Vector<Object> sp = new Vector<>();
+                      sp.add(i);
+                      sp.add(sanpham.getMaSP());
+                      sp.add(sanpham.getTenSP());
+                      sp.add(sanpham.getDonGia());
+                      sp.add(sanpham.getSLTonKho());
+                      sp.add(DanhMucBUS.LayTenDanhMucTheoMa(sanpham.getDanhMucSP()));
+                      sp.add(sanpham.getMaSP());
+                      i++;
+                      model.addRow(sp);
+                      danhsachsanpham.setModel(model);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            break;
+
+            case "Tìm theo mã":
+                try {
+                    int noidung = Integer.parseInt(noidungtimkiem);
+                    DsSanPham = SanPhamBUS.TimKiemTheoMa(noidung);
+                    DefaultTableModel model = (DefaultTableModel) danhsachsanpham.getModel();
+                    model.setRowCount(0);
+                    Vector<Object> header = new Vector<>();
+                    header.add("Stt");
+                    header.add("Mã sản phẩm");
+                    header.add("Tên sản phẩm");
+                    header.add("Gía ");
+                    header.add("Số lượng");
+                    header.add("Danh Mục");
+                    header.add("Mô tả");
+                    if(model.getRowCount()==0){
+                        model=new DefaultTableModel(header,0);
+                    }
+                    int i =0;
+                    for (SanPhamDTO sanpham : DsSanPham) {
+                      Vector<Object> sp = new Vector<>();
+                      sp.add(i);
+                      sp.add(sanpham.getMaSP());
+                      sp.add(sanpham.getTenSP());
+                      sp.add(sanpham.getDonGia());
+                      sp.add(sanpham.getSLTonKho());
+                      sp.add(DanhMucBUS.LayTenDanhMucTheoMa(sanpham.getDanhMucSP()));
+                      sp.add(sanpham.getMaSP());
+                      i++;
+                      model.addRow(sp);
+                      danhsachsanpham.setModel(model);
+                    }
+                } catch (Exception ex) {
+                    Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                break;
+            default:
+                throw new AssertionError();
+        }
+    }//GEN-LAST:event_timkiemsanphamMouseClicked
+
+    private void themsanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_themsanphamMouseClicked
+        // TODO add your handling code here:
+        String masanpham = this.masanpham.getText();
+        String tensanpham = this.tensanpham.getText();
+        String mota = motasanpham.getText();
+        DanhMucDTO danhmuc = (DanhMucDTO) danhmucsanpham.getSelectedItem();
+        if (masanpham.toString().isEmpty() || tensanpham.toString().isEmpty() || mota.toString().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đầy đủ thông tin sản phẩm");
+        } else {
+            try {
+                int msp = Integer.parseInt(masanpham);
+                if (SanPhamBUS.KiemTraSanPham(tensanpham, msp) == false) {
+                    JOptionPane.showMessageDialog(null, "Tên sản phẩm hoặc mã sản phẩm đã tồn tại trên hệ thống");
+                } else {
+                    SanPhamDTO sanpham = new SanPhamDTO(msp, tensanpham, 0, 0, danhmuc.getMaDanhMuc(), mota);
+                    SanPhamBUS.ThemSanPham(sanpham);
+                    JOptionPane.showMessageDialog(null, "Đã thêm sản phẩm thành công");
+                    LayDanhSachSanPham();
+                    this.masanpham.setText("");
+                    this.tensanpham.setText("");
+                    giasanpham.setText("");
+                    soluongsanpham.setValue(0);
+                    motasanpham.setText("");
+                }
+            } catch (Exception ex) {
+                Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+
+    }//GEN-LAST:event_themsanphamMouseClicked
+
+    private void danhsachsanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_danhsachsanphamMouseClicked
+        // TODO add your handling code here:
+
+        JTable target = (JTable) evt.getSource();
+        int row = target.getSelectedRow();
+        DefaultTableModel model = (DefaultTableModel) target.getModel();
+        String masanpham = model.getValueAt(row, 1).toString();
+        String tensp = (String) model.getValueAt(row, 2);
+        String giasp = model.getValueAt(row, 4).toString();
+        String tendanhmuc = (String) model.getValueAt(row, 5);
+        int soluong = (int) model.getValueAt(row, 3);
+        String mota = (String) model.getValueAt(row, 6);
+        this.masanpham.setText(masanpham);
+        tensanpham.setText(tensp);
+        soluongsanpham.setValue(soluong);
+        giasanpham.setText(giasp);
+        motasanpham.setText(mota);
+        int i = 0;
+        while (true) {
+            DanhMucDTO danhmuc = (DanhMucDTO) danhmucsanpham.getItemAt(i);
+            if (danhmuc.getTenDanhMuc().equals(tendanhmuc)) {
+                danhmucsanpham.setSelectedIndex(i);
+                break;
+            }
+            i++;
+
+        }
+        this.masanpham.setEditable(false);
+    }//GEN-LAST:event_danhsachsanphamMouseClicked
+
+    private void suasanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_suasanphamMouseClicked
+        // TODO add your handling code here:
+        String tensp = tensanpham.getText();
+        int masp = Integer.parseInt(masanpham.getText());
+        String mota = motasanpham.getText();
+        DanhMucDTO danhmuc = (DanhMucDTO) danhmucsanpham.getSelectedItem();
+        try {
+            if (SanPhamBUS.KiemTraMaSanPham(masp) == false) {
+                JOptionPane.showMessageDialog(null, "Mã sản phẩm không chính xác");
+            } else {
+                if (SanPhamBUS.KiemTraTenSanPham(tensp, masp) == false) {
+                    JOptionPane.showMessageDialog(null, "Tên sản phẩm đã tồn tại trên hệ thống");
+                } else {
+                    SanPhamBUS.CapNhatSanPham(tensp, danhmuc.getMaDanhMuc(), mota);
+                    JOptionPane.showMessageDialog(null, "Đã sửa thành công");
+                    LayDanhSachSanPham();
+                }
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_suasanphamMouseClicked
+
+    private void resetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_resetMouseClicked
+        // TODO add your handling code here:
+        masanpham.setText("");
+        tensanpham.setText("");
+        giasanpham.setText("");
+        soluongsanpham.setValue(0);
+        motasanpham.setText("");
+        try {
+            LayDanhSachSanPham();
+        } catch (Exception ex) {
+            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_resetMouseClicked
+
+    private void xoasanphamMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_xoasanphamMouseClicked
+        // TODO add your handling code here:
+        int masp = Integer.parseInt(masanpham.getText());
+        try {
+            if (SanPhamBUS.KiemTraMaSanPham(masp) == false) {
+                JOptionPane.showMessageDialog(null, "Mã sản phẩm không chính xác");
+            } else {
+                SanPhamBUS.XoaSanPham(masp);
+                JOptionPane.showMessageDialog(null, "Đã xóa sản phẩm thành công");
+                LayDanhSachSanPham();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(SanPhamGUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_xoasanphamMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<DanhMucDTO> danhmucsanpham;
+    private javax.swing.JTable danhsachsanpham;
+    private javax.swing.JTextField giasanpham;
+    private javax.swing.JTextField giatritimkiem;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -306,12 +582,15 @@ public class SanPhamGUI extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField5;
+    private javax.swing.JTextField masanpham;
+    private javax.swing.JTextArea motasanpham;
+    private javax.swing.JComboBox<String> phuongthuctimkiem;
+    private javax.swing.JButton reset;
+    private javax.swing.JSpinner soluongsanpham;
+    private javax.swing.JButton suasanpham;
+    private javax.swing.JTextField tensanpham;
+    private javax.swing.JButton themsanpham;
+    private javax.swing.JButton timkiemsanpham;
+    private javax.swing.JButton xoasanpham;
     // End of variables declaration//GEN-END:variables
 }
