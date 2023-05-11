@@ -12,23 +12,27 @@ import java.util.Date;
  */
 public class DonHangDTO {
 
-    private int MaDH;
+    private String MaDH;
     private Date NgayLap;
     private int MaKH;
     private int MaNV;
 
-    public DonHangDTO(int MaDH, Date NgayLap, int MaKH, int MaNV) {
+    public DonHangDTO() {
+    }
+
+    
+    public DonHangDTO(String MaDH, Date NgayLap, int MaKH, int MaNV) {
         this.MaDH = MaDH;
         this.NgayLap = NgayLap;
         this.MaKH = MaKH;
         this.MaNV = MaNV;
     }
 
-    public int getMaDH() {
+    public String getMaDH() {
         return MaDH;
     }
 
-    public void setMaDH(int MaDH) {
+    public void setMaDH(String MaDH) {
         this.MaDH = MaDH;
     }
 
